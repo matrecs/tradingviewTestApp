@@ -5,7 +5,9 @@
  */
 package com.midikko.tradeviewtestapp.client;
 
-import com.midikko.tradeviewtestapp.messages.GetFilesRequest;
+import com.midikko.tradeviewtestapp.messages.GetFileRequest;
+import com.midikko.tradeviewtestapp.messages.GetFileResponse;
+import com.midikko.tradeviewtestapp.messages.GetFilesListRequest;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,31 +21,36 @@ import java.util.logging.Logger;
  */
 public class MainClassClient {
 
-    public static final int SERVER_PORT = 25565;
+    public static final int SERVER_PORT = 25569;
 
     public static void main(String[] args) {
-        ObjectOutputStream outputStream = null;
-        ObjectInputStream inputStream = null;
+        Socket socket = null;
         try {
             System.out.println("Client on the way!");
-            Socket socket = new Socket("localHost", SERVER_PORT);
+            socket = new Socket("localHost", SERVER_PORT);
             System.out.println("Connected");
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            GetFilesRequest message = new GetFilesRequest();
+            SocketHolder socketHolder = new SocketHolder(socket);
+            GetFilesListRequest message = new GetFilesListRequest();
             System.out.println("Object to be written = " + message);
-            outputStream.writeObject(message);
-            System.out.println("Read response :: " + inputStream.readObject());
-            
-        } catch (IOException ex) {
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainClassClient.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                outputStream.close();
-            } catch (IOException ex) {
+            socketHolder.sendMessage(message);
+            System.out.println("Read response :: " + socketHolder.readMessage());
+            socketHolder.sendMessage(new GetFileRequest(1));
+            GetFileResponse response = (GetFileResponse) socketHolder.readMessage();
+            System.out.println("Read response on get file :: " + response.getStatus());
+            if(response.getStatus()==1){
+                socketHolder.readFile();
             }
+        } catch (IOException ex) {
+        }finally{
+            if(socket!=null){
+                try {
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(MainClassClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
         }
-
+        
     }
 }

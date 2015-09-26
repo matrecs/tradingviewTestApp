@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author midikko
  */
-public class GetFilesRequest extends Message{
+public class GetFilesListRequest extends Message{
     private static final long serialVersionUID = -8521342080818246488L;
     
 }

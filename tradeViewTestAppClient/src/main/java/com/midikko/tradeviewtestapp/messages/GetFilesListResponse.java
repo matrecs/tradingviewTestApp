@@ -6,12 +6,13 @@
 package com.midikko.tradeviewtestapp.messages;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  *
  * @author midikko
  */
-public class GetFilesResponse extends Message{
+public class GetFilesListResponse extends Message{
 
     private static final long serialVersionUID = 6683479949287415979L;
 
@@ -32,6 +33,11 @@ public class GetFilesResponse extends Message{
 
     public void setIds(int[] ids) {
         this.ids = ids;
+    }
+
+    @Override
+    public String toString() {
+        return "GetFilesResponse{" + "names=" + Arrays.toString(names) + ", ids=" + Arrays.toString(ids) + '}';
     }
 
 }

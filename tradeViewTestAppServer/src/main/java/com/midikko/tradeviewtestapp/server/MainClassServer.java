@@ -13,7 +13,7 @@ import static com.midikko.tradeviewtestapp.server.MainClassServer.SERVER_PORT;
  */
 public class MainClassServer {
 
-    public static final int SERVER_PORT = 25565;
+    public static final int SERVER_PORT = 25569;
 
     public static void main(String[] args) {
         ServerSocketHolder socket = new ServerSocketHolder(SERVER_PORT);
