@@ -5,13 +5,16 @@
  */
 package com.midikko.tradeviewtestapp.server;
 
+import com.midikko.tradeviewtestapp.domain.FileInfo;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,8 +23,8 @@ import java.util.logging.Logger;
  * @author midikko
  */
 public class ServerSocketHolder extends Thread {
-    
-    public static List<Path> files = new ArrayList<>();
+
+    public static Map<String, FileInfo> files = new HashMap<>();
 
     private ServerSocket socket;
 
@@ -41,7 +44,7 @@ public class ServerSocketHolder extends Thread {
             try {
                 System.out.println("Wait for client");
                 new ClientGreeter(new ClientSocketHolder(socket.accept())).start();
-               
+
             } catch (IOException ex) {
                 Logger.getLogger(ServerSocketHolder.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -53,17 +56,20 @@ public class ServerSocketHolder extends Thread {
 
         Path path = Paths.get("files"); // it's only an object
         System.out.println("path :: " + path);
-        if(!Files.exists(path)){
+        if (!Files.exists(path)) {
             System.out.println("Filefolder not exist! create one.");
             Files.createDirectory(path);
             System.out.print("  Folder Created.");
         }
         Files.walk(Paths.get("files")).forEach(filePath -> {
             if (Files.isRegularFile(filePath)) {
-                
-                files.add(filePath);
+                try {
+                    files.put(filePath.getFileName().toString(), new FileInfo(filePath));
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerSocketHolder.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
-    
+
 }

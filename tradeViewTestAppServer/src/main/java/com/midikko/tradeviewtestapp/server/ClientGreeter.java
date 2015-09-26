@@ -5,10 +5,13 @@
  */
 package com.midikko.tradeviewtestapp.server;
 
+import com.midikko.tradeviewtestapp.domain.FileInfo;
 import com.midikko.tradeviewtestapp.messages.GetFileRequest;
 import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListResponse;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +21,6 @@ import java.util.List;
 public class ClientGreeter extends Thread {
 
     ClientSocketHolder client;
-    List<Path> files = ServerSocketHolder.files;
 
     public ClientGreeter(ClientSocketHolder client) {
         this.client = client;
@@ -33,30 +35,27 @@ public class ClientGreeter extends Thread {
             System.out.println("Object class :: " + message.getClass().getSimpleName());
             System.out.println("our message :: " + message);
             switch (message.getClass().getSimpleName()) {
-                case "GetFilesListRequest":{
+                case "GetFilesListRequest": {
                     System.out.println("Send getFiles answer");
                     GetFilesListResponse response = new GetFilesListResponse();
-                    
-                    int[] ids = new int[files.size()];
-                    String[] names = new String[files.size()];
-                    files.forEach((file) -> {
-                        int currentIndex = files.indexOf(file);
-                        ids[currentIndex] = currentIndex;
-                        names[currentIndex] = file.getFileName().toString();
-                    }
-                    );
-                    response.setIds(ids);
-                    response.setNames(names);
+
+                    List <FileInfo> filesList = new ArrayList<>();
+                    ServerSocketHolder.files.entrySet().forEach((entry) -> {
+                        filesList.add(entry.getValue());
+                    });
+                    response.setFiles(filesList.toArray(new FileInfo[0]));
                     client.sendMessage(response);
-                    break;}
-                case "GetFileRequest" :{
+                    break;
+                }
+                case "GetFileRequest": {
                     GetFileRequest request = (GetFileRequest) message;
-                    if(request.getId() > files.size() || request.getId() < 0){
+                    FileInfo file = ServerSocketHolder.files.get(request.getName());
+                    if(file==null){
                         client.sendMessage(new GetFileResponse(0));
                     }else{
                         client.sendMessage(new GetFileResponse(1));
                     }
-                    client.sendFile(files.get(request.getId()));
+                    client.sendFile(file.getPath());
                     break;
                 }
                 default:

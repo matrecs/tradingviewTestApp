@@ -98,10 +98,16 @@ public class SocketHolder {
     }
     
     private void initializeFilesSystem() throws IOException {
-        Path path = Paths.get("files"); // it's only an object
-        if(!Files.exists(path)){
-            System.out.println("Filefolder not exist! create one.");
-            Files.createDirectory(path);
+        Path filesFolder = Paths.get("files"); // it's only an object
+        if(!Files.exists(filesFolder)){
+            System.out.println("Files folder not exist! create one.");
+            Files.createDirectory(filesFolder);
+            System.out.print("  Folder Created.");
+        }
+        Path tempFolder = Paths.get(".temp"); // it's only an object
+        if(!Files.exists(tempFolder)){
+            System.out.println("Temporary folder not exist! create one.");
+            Files.createDirectory(tempFolder);
             System.out.print("  Folder Created.");
         }
     }

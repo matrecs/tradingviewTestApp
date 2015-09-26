@@ -5,33 +5,24 @@
  */
 package com.midikko.tradeviewtestapp.messages;
 
+import com.midikko.tradeviewtestapp.domain.FileInfo;
 import java.io.Serializable;
 
 /**
  *
  * @author midikko
  */
-public class GetFilesListResponse extends Message{
+public class GetFilesListResponse extends Message {
 
     private static final long serialVersionUID = 6683479949287415979L;
+    private FileInfo[] files;
 
-    private String[] names;
-    private int[] ids;
-
-    public String[] getNames() {
-        return names;
+    public FileInfo[] getFiles() {
+        return files;
     }
 
-    public void setNames(String[] names) {
-        this.names = names;
-    }
-
-    public int[] getIds() {
-        return ids;
-    }
-
-    public void setIds(int[] ids) {
-        this.ids = ids;
+    public void setFiles(FileInfo[] files) {
+        this.files = files;
     }
 
 }

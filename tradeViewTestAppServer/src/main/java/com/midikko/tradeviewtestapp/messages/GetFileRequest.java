@@ -9,21 +9,22 @@ package com.midikko.tradeviewtestapp.messages;
  *
  * @author midikko
  */
-public class GetFileRequest extends Message{
-    private static final long serialVersionUID = 1271201506734918899L;
-    int id;
+public class GetFileRequest extends Message {
 
-    public int getId() {
-        return id;
+    private static final long serialVersionUID = 1271201506734918899L;
+    String name;
+
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "GetFileRequest{" + "id=" + id + '}';
+        return "GetFileRequest{" + "name=" + name + '}';
     }
-    
+
 }
