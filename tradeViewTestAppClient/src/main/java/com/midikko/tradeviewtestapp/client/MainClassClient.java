@@ -11,8 +11,6 @@ import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListRequest;
 import com.midikko.tradeviewtestapp.messages.GetFilesListResponse;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +27,7 @@ public class MainClassClient {
         Socket socket = null;
         try {
             //TODO change all this sout to printf
+            //TODO think about ui interfaces?..
             System.out.println("Client is ready to be used");
             System.out.println("Please enter host and port as according to the sample \"host:port\"");
             String hostPort = System.console().readLine();
@@ -46,12 +45,14 @@ public class MainClassClient {
                 System.out.println(selector++ + ". " + file.getFilename());
             }
             System.out.println("Please select the number of file you wish to download");
-            int selectedFile = Integer.parseInt(System.console().readLine());
-            socketHolder.sendMessage(new GetFileRequest(fileListResponse.getFiles()[selectedFile].getFilename()));
+            int selectedFileNumber = Integer.parseInt(System.console().readLine());       
+            FileInfo fileToDownload = fileListResponse.getFiles()[selectedFileNumber];    
+            socketHolder.sendMessage(new GetFileRequest(fileToDownload.getFilename()));  
             GetFileResponse getFileResponse = (GetFileResponse) socketHolder.readMessage();
             System.out.println("Read response on get file :: " + getFileResponse.getStatus());
+            
             if (getFileResponse.getStatus() == 1) {
-                socketHolder.readFile();
+                socketHolder.readFile(fileToDownload);
             }
         } catch (IOException ex) {
         } finally {

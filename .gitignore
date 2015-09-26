@@ -12,3 +12,4 @@
 hs_err_pid*
 /tradeViewTestAppClient/target/
 /tradeViewTestAppServer/target/
+/tradeViewTestAppClient/.tmp

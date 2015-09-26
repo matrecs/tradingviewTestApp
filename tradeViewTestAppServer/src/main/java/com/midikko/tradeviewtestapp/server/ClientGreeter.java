@@ -9,8 +9,6 @@ import com.midikko.tradeviewtestapp.domain.FileInfo;
 import com.midikko.tradeviewtestapp.messages.GetFileRequest;
 import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
