@@ -6,9 +6,7 @@
 package com.midikko.tradeviewtestapp.server;
 
 import com.midikko.tradeviewtestapp.messages.Message;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,8 +16,6 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -82,29 +78,20 @@ public class ClientSocketHolder {
             byte[] mybytearray;
             System.out.println("Begin sending file");
             File file = path.toFile();
-            RandomAccessFile raf = new RandomAccessFile(file, "r");
-            FileChannel inChannel = raf.getChannel();
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
-            OutputStream os = socket.getOutputStream();
-            while (inChannel.read(buffer) > 0) {
-                buffer.flip();
-                mybytearray = buffer.array();
-                buffer.clear(); // do something with the data and clear/compact it.
-                
-                os.write(mybytearray, 0, mybytearray.length);
-                os.flush();
+            try (RandomAccessFile raf = new RandomAccessFile(file, "r"); FileChannel inChannel = raf.getChannel()) {
+                ByteBuffer buffer = ByteBuffer.allocate(MainClassServer.PARTITION_SIZE);
+                OutputStream os = socket.getOutputStream();
+                while (inChannel.read(buffer) > 0) {
+                    buffer.flip();
+                    mybytearray = buffer.array();
+                    buffer.clear(); // do something with the data and clear/compact it.
+                    os.write(mybytearray, 0, mybytearray.length);
+                    os.flush();
+                }
             }
-            inChannel.close();
-            raf.close();
-
-//            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-//            bis.read(mybytearray, 0, mybytearray.length);
-//            OutputStream os = socket.getOutputStream();
-//            os.write(mybytearray, 0, mybytearray.length);
-//            os.flush();
             System.out.println("sending file finished");
         } catch (IOException ex) {
-            Logger.getLogger(ClientSocketHolder.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error while sending file :: " + ex);
         }
     }
 

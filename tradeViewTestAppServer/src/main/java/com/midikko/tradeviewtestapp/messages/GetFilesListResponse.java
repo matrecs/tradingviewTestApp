@@ -6,7 +6,6 @@
 package com.midikko.tradeviewtestapp.messages;
 
 import com.midikko.tradeviewtestapp.domain.FileInfo;
-import java.io.Serializable;
 
 /**
  *

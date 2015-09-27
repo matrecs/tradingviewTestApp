@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 public class SocketHolder {
 
     private static SocketHolder instanse;
-    public static final int PARTITION_SIZE = 1024;
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;

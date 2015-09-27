@@ -43,7 +43,7 @@ public class DownloadNewFileMenu extends Thread {
 
         System.out.println("Please, insert full path to directory where file will be placed (files/ by default)");
         String path = System.console().readLine();
-        Path directory = null;
+        Path directory;
         if (!path.isEmpty()) {
             directory = Paths.get(path);
         } else {
@@ -66,7 +66,7 @@ public class DownloadNewFileMenu extends Thread {
                 }
                 break;
                 case 2:
-                    directory = Paths.get(FileLoader.DEFAULT_TEMPORARY_FILES_DIRECTORY);
+                    directory = Paths.get(FileLoader.DEFAULT_FILE_DIRECTORY);
                     break;
                 case 3:
                     new MainMenu().start();
@@ -76,10 +76,11 @@ public class DownloadNewFileMenu extends Thread {
         }
         socketHolder.sendMessage(new GetFileRequest(fileToDownload.getFilename()));
         GetFileResponse getFileResponse = (GetFileResponse) socketHolder.readMessage();
-        System.out.println("Read response on get file :: " + getFileResponse.getStatus());
         if (getFileResponse.getStatus() == 1) {
             socketHolder.readFile(directory, fileToDownload);
             System.out.println("Download finished.");
+        }else{
+            System.out.println("Selected file is not availiable now.");
         }
         
         System.out.println("1. Download another file.");

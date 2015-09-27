@@ -6,7 +6,6 @@
 package com.midikko.tradeviewtestapp.client;
 
 import com.midikko.tradeviewtestapp.client.ui.ConnectMenu;
-import com.midikko.tradeviewtestapp.client.ui.MainMenu;
 
 
 /**

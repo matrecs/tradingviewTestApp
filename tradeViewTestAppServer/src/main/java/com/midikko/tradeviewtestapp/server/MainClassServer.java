@@ -14,6 +14,7 @@ import static com.midikko.tradeviewtestapp.server.MainClassServer.SERVER_PORT;
 public class MainClassServer {
 
     public static final int SERVER_PORT = 25569;
+    public static final int PARTITION_SIZE = 1024*100;
 
     public static void main(String[] args) {
         ServerSocketHolder socket = new ServerSocketHolder(SERVER_PORT);

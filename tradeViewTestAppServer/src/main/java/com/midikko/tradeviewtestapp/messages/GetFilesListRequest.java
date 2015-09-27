@@ -5,8 +5,6 @@
  */
 package com.midikko.tradeviewtestapp.messages;
 
-import java.io.Serializable;
-
 /**
  *
  * @author midikko

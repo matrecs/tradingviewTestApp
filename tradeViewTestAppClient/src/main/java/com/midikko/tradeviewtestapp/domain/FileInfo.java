@@ -17,7 +17,6 @@ public class FileInfo implements Serializable{
     private String filename;
     private long byteSize;
     private String hash;
-    private long partsCount;
 
     public String getFilename() {
         return filename;
