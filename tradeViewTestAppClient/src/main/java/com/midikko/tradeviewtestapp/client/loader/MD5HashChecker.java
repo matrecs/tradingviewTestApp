@@ -52,7 +52,7 @@ public class MD5HashChecker {
 
     public boolean checkHashSum(String filename) throws IOException {
         DownloadState state = downloadStateManager.getDownloadStateByFileName(filename);
-        String hash = computeHash(Paths.get(state.getTargetDirectory() + filename));
+        String hash = computeHash(Paths.get(state.getTargetDirectory(), filename));
         return hash.equals(state.getHash());
     }
     
