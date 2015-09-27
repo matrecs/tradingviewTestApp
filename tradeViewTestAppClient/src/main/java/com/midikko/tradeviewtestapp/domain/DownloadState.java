@@ -73,4 +73,9 @@ public class DownloadState implements Serializable {
         this.targetDirectory = targetDirectory;
     }
 
+    @Override
+    public String toString() {
+        return "DownloadState{" + "filename=" + filename + ", hash=" + hash + ", bytes=" + bytes + ", totalPartitions=" + totalPartitions + ", currentPartition=" + currentPartition + ", targetDirectory=" + targetDirectory + '}';
+    }
+
 }

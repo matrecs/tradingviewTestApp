@@ -8,6 +8,7 @@ package com.midikko.tradeviewtestapp.client.loader;
 import static com.midikko.tradeviewtestapp.client.loader.FileLoader.DEFAULT_FILE_DIRECTORY;
 import com.midikko.tradeviewtestapp.domain.DownloadState;
 import com.midikko.tradeviewtestapp.domain.DownloadStateManager;
+import com.midikko.tradeviewtestapp.domain.FileInfo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -51,7 +52,12 @@ public class MD5HashChecker {
 
     public boolean checkHashSum(String filename) throws IOException {
         DownloadState state = downloadStateManager.getDownloadStateByFileName(filename);
-        String hash = computeHash(Paths.get(DEFAULT_FILE_DIRECTORY + filename));
+        String hash = computeHash(Paths.get(state.getTargetDirectory() + filename));
         return hash.equals(state.getHash());
+    }
+    
+    public boolean checkHashSum(Path pathToFile,FileInfo filename) throws IOException {
+        String hash = computeHash(Paths.get(pathToFile.toString()));
+        return hash.equals(filename.getHash());
     }
 }

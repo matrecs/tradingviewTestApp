@@ -44,8 +44,8 @@ public class FileLoader {
     private void standartReading(Path path, FileInfo file) {
         byte[] mybytearray = new byte[PARTITION_SIZE];
         try {
-
-            FileOutputStream fos = new FileOutputStream(path.toString() + "/" + file.getFilename());
+            Path pathToFile = Paths.get(path.toString() + "/" + file.getFilename());
+            FileOutputStream fos = new FileOutputStream(pathToFile.toString());
 
             try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
                 int bytesRead = stream.read(mybytearray, 0, mybytearray.length);
@@ -53,7 +53,7 @@ public class FileLoader {
             }
 
             System.out.println(" reading file finished");
-            System.out.println("HASH SUM STATUS :: " + hashChecker.checkHashSum(file.getFilename()));
+            System.out.println("HASH SUM STATUS :: " + hashChecker.checkHashSum(pathToFile,file));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(SocketHolder.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

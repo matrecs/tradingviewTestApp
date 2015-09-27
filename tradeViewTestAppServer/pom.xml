@@ -22,7 +22,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.midikko.tradeviewtestapp.client.MainClassServer</mainClass>
+                            <mainClass>com.midikko.tradeviewtestapp.server.MainClassServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
