@@ -56,6 +56,10 @@ public class ClientGreeter extends Thread {
                     client.sendFile(file.getPath());
                     break;
                 }
+                case "CloseInteraction": {
+                    System.out.println("Close connection");
+                    return;
+                }
                 default:
                     throw new AssertionError();
             }

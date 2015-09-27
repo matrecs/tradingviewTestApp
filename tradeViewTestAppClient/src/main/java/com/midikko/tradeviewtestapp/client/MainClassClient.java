@@ -6,6 +6,7 @@
 package com.midikko.tradeviewtestapp.client;
 
 import com.midikko.tradeviewtestapp.domain.FileInfo;
+import com.midikko.tradeviewtestapp.messages.CloseInteraction;
 import com.midikko.tradeviewtestapp.messages.GetFileRequest;
 import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListRequest;
@@ -54,6 +55,7 @@ public class MainClassClient {
             if (getFileResponse.getStatus() == 1) {
                 socketHolder.readFile(fileToDownload);
             }
+            socketHolder.sendMessage(new CloseInteraction());
         } catch (IOException ex) {
         } finally {
             if (socket != null) {
