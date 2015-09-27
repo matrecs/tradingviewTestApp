@@ -19,13 +19,12 @@ public class DownloadState implements Serializable {
     private long bytes;
     private long totalPartitions;
     private int currentPartition;
+    private String targetDirectory;
 
     public DownloadState(String filename) {
         this.filename = filename;
     }
 
-    
-    
     public long getBytes() {
         return bytes;
     }
@@ -64,6 +63,14 @@ public class DownloadState implements Serializable {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public String getTargetDirectory() {
+        return targetDirectory;
+    }
+
+    public void setTargetDirectory(String targetDirectory) {
+        this.targetDirectory = targetDirectory;
     }
 
 }

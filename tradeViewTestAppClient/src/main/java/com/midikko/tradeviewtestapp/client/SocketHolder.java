@@ -7,11 +7,15 @@ package com.midikko.tradeviewtestapp.client;
 
 import com.midikko.tradeviewtestapp.client.loader.FileLoader;
 import com.midikko.tradeviewtestapp.domain.FileInfo;
+import com.midikko.tradeviewtestapp.messages.CloseInteraction;
 import com.midikko.tradeviewtestapp.messages.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,18 +23,20 @@ import java.net.Socket;
  */
 public class SocketHolder {
 
+    private static SocketHolder instanse;
     public static final int PARTITION_SIZE = 1024;
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private FileLoader loader;
 
-    public SocketHolder(Socket socket) {
-        this.socket = socket;
+    public SocketHolder(String host, int port) {
         try {
+            this.socket = new Socket(host, port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             loader = new FileLoader(socket.getInputStream());
+            SocketHolder.instanse = this;
         } catch (IOException ex) {
             System.out.println("Failed to set client io streams :: \n" + ex);
         }
@@ -72,10 +78,21 @@ public class SocketHolder {
         this.outputStream = outputStream;
     }
 
-    public void readFile(FileInfo file) {
+    public void readFile(Path path,FileInfo file) {
         System.out.println("Begin reading file");
-        loader.readFile(file);
+        loader.readFile(path,file);
     }
 
+    public static SocketHolder getInstance() {
+        return instanse;
+    }
 
+    public void close() {
+        sendMessage(new CloseInteraction());
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(SocketHolder.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

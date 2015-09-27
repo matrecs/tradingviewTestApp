@@ -41,10 +41,12 @@ public class FileLoader {
         hashChecker = new MD5HashChecker();
     }
 
-    private void standartReading(FileInfo file) {
+    private void standartReading(Path path, FileInfo file) {
         byte[] mybytearray = new byte[PARTITION_SIZE];
         try {
-            FileOutputStream fos = new FileOutputStream(DEFAULT_FILE_DIRECTORY + file.getFilename());
+
+            FileOutputStream fos = new FileOutputStream(path.toString() + "/" + file.getFilename());
+
             try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
                 int bytesRead = stream.read(mybytearray, 0, mybytearray.length);
                 bos.write(mybytearray, 0, bytesRead);
@@ -59,7 +61,7 @@ public class FileLoader {
         }
     }
 
-    private void partitionReading(FileInfo file) {
+    private void partitionReading(Path p, FileInfo file) {
         try {
             int partitionCount = (int) (file.getByteSize() / PARTITION_SIZE + 1);
             Path tempDirectory = Paths.get(DEFAULT_TEMPORARY_FILES_DIRECTORY, file.getFilename());
@@ -69,6 +71,7 @@ public class FileLoader {
             state.setCurrentPartition(0);
             state.setTotalPartitions(partitionCount);
             state.setHash(file.getHash());
+            state.setTargetDirectory(p.toString());
 
             for (int i = 1; i <= partitionCount; i++) {
                 FileOutputStream fos;
@@ -95,8 +98,10 @@ public class FileLoader {
 
     public void rebuildFile(String filename) {
         try {
-            Files.deleteIfExists(Paths.get(DEFAULT_FILE_DIRECTORY + filename));
-            FileOutputStream mainFileStream = new FileOutputStream(DEFAULT_FILE_DIRECTORY + filename, true);
+            DownloadState state = downloadStateManager.getDownloadStateByFileName(filename);
+            Path targetDirectory = Paths.get(state.getTargetDirectory());
+            Files.deleteIfExists(Paths.get(targetDirectory.toString(), filename));
+            FileOutputStream mainFileStream = new FileOutputStream(targetDirectory + "/" + filename, true);
             Path tempDirectory = Paths.get(DEFAULT_TEMPORARY_FILES_DIRECTORY, filename);
             try (BufferedOutputStream bos = new BufferedOutputStream(mainFileStream)) {
                 Files.walk(tempDirectory)
@@ -143,13 +148,11 @@ public class FileLoader {
         }
     }
 
-
-
-    public void readFile(FileInfo file) {
+    public void readFile(Path path, FileInfo file) {
         if (file.getByteSize() < PARTITION_SIZE) {
-            standartReading(file);
+            standartReading(path, file);
         } else {
-            partitionReading(file);
+            partitionReading(path, file);
         }
     }
 
