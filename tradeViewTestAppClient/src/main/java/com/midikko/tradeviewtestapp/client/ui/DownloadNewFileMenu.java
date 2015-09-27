@@ -36,13 +36,28 @@ public class DownloadNewFileMenu extends Thread {
         socketHolder.sendMessage(message);
         GetFilesListResponse fileListResponse = (GetFilesListResponse) socketHolder.readMessage();
         System.out.println("server at this time contains the following files:");
-        int selector = 0;
+        int selector = 1;
+        System.out.println("0. Return to the main menu.");
         for (FileInfo file : fileListResponse.getFiles()) {
             System.out.println(selector++ + ". " + file.getFilename());
         }
         System.out.println("Please select the number of file you wish to download");
-        int selectedFileNumber = Integer.parseInt(System.console().readLine());
-        FileInfo fileToDownload = fileListResponse.getFiles()[selectedFileNumber];
+        int selectedFileNumber;
+        try {
+            selectedFileNumber = Integer.parseInt(System.console().readLine());
+        } catch (NumberFormatException ex) {
+            new DownloadNewFileMenu().start();
+            return;
+        }
+        if (selectedFileNumber == 0) {
+            new MainMenu().start();
+            return;
+        }
+        if (selectedFileNumber > fileListResponse.getFiles().length + 1 || selectedFileNumber < 0) {
+            new DownloadNewFileMenu().start();
+            return;
+        }
+        FileInfo fileToDownload = fileListResponse.getFiles()[selectedFileNumber - 1];
 
         System.out.println("Please, insert full path to directory where file will be placed (files/ by default)");
         String path = System.console().readLine();
@@ -86,19 +101,27 @@ public class DownloadNewFileMenu extends Thread {
             System.out.println("Selected file is not availiable now.");
         }
 
-        System.out.println("1. Download another file.");
-        System.out.println("2 . Return to mine menu.");
-        int selected = Integer.parseInt(System.console().readLine());
-        switch (selected) {
-            case 1:
-                new DownloadNewFileMenu().start();
-                break;
-            case 2:
-                new MainMenu().start();
-                break;
-            default:
-                throw new AssertionError();
+        while (true) {
+            System.out.println("1. Download another file.");
+            System.out.println("2 . Return to mine menu.");
+            int selected;
+            try {
+                selected = Integer.parseInt(System.console().readLine());
+            } catch (NumberFormatException ex) {
+                continue;
+            }
+            switch (selected) {
+                case 1:
+                    new DownloadNewFileMenu().start();
+                    return;
+                case 2:
+                    new MainMenu().start();
+                    return;
+                default:
+                    System.out.println("Bad input. Try again");
+            }
         }
+
     }
 
 }
