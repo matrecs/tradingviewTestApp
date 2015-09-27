@@ -6,23 +6,32 @@
 package com.midikko.tradeviewtestapp.messages;
 
 /**
+ * Класс описывающий сообщение-запрос на передачу файла.
  *
  * @author midikko
  */
 public class GetFileRequest extends Message {
 
     private static final long serialVersionUID = 1271201506734918899L;
+    private String name;
 
     public GetFileRequest(String name) {
         this.name = name;
     }
 
-    String name;
-
+    /**
+     * Получение имени запрашиваемого файла.
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Установка имени запрашиваемого файла.
+     *
+     */
     public void setName(String name) {
         this.name = name;
     }

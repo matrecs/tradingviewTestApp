@@ -8,39 +8,44 @@ package com.midikko.tradeviewtestapp.domain;
 import java.io.Serializable;
 
 /**
+ * Класс описываюший DTO для передачи информации о списке файлов клиенту.
  *
  * @author midikko
  */
-public class FileInfo implements Serializable{
+public class FileInfo implements Serializable {
+
     private static final long serialVersionUID = -6078891588911784282L;
-    
+
     private String filename;
     private long byteSize;
     private String hash;
 
+    /**
+     * Метод на получение имени файла.
+     *
+     * @return
+     */
     public String getFilename() {
         return filename;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
+    /**
+     * Метод на получение длины файла в байтах
+     *
+     * @return длины файла в байтах
+     * @throws IOException
+     */
     public long getByteSize() {
         return byteSize;
     }
 
-    public void setByteSize(long byteSize) {
-        this.byteSize = byteSize;
-    }
-
+    /**
+     * Метод на получение hash-суммы файла
+     *
+     * @return хеш!сумма MD5
+     */
     public String getHash() {
         return hash;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-    
-    
 }

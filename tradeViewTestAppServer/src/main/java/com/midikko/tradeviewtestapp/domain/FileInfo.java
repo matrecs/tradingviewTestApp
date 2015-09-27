@@ -15,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Класс описываюший DTO для передачи информации о списке файлов клиенту.
  *
  * @author midikko
  */
@@ -27,26 +28,50 @@ public class FileInfo implements Serializable {
     private long byteSize;
     private String hash;
 
+    /**
+     * Конструктор, принимающий на вход Path-объект и заполняющий поля объекта
+     * на его основе.
+     *
+     * @param path
+     * @throws IOException
+     */
     public FileInfo(Path path) throws IOException {
         this.path = path;
         this.filename = path.getFileName().toString();
         this.byteSize = Files.size(path);
         this.hash = computeHash();
-        
+
     }
 
+    /**
+     * Метод на получение имени файла.
+     * @return
+     */
     public String getFilename() {
         return path.getFileName().toString();
     }
 
+    /**
+     * Метод на получение длины файла в байтах
+     * @return длины файла в байтах
+     * @throws IOException
+     */
     public long getByteSize() throws IOException {
         return Files.size(path);
     }
 
+    /**
+     * Метод на получение hash-суммы файла
+     * @return хеш!сумма MD5
+     */
     public String getHash() {
         return hash;
     }
 
+    /**
+     * Метод на получение Path
+     * @return
+     */
     public Path getPath() {
         return path;
     }

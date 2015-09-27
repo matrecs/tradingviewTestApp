@@ -16,12 +16,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
+ * Вспомогательный класс обеспечивающий получение и сверку хеш-сумм файлов
  * @author midikko
  */
 public class MD5HashChecker {
     
-    MessageDigest md;
+    private MessageDigest md;
 
     public MD5HashChecker() {
         try {
@@ -33,7 +33,7 @@ public class MD5HashChecker {
 
     private String computeHash(Path path) throws IOException {
         try (InputStream is = Files.newInputStream(path)) {
-            DigestInputStream dis = new DigestInputStream(is, md);
+            new DigestInputStream(is, md);
             /* Read stream to EOF as normal... */
         }
         byte[] digest = md.digest();
@@ -46,9 +46,15 @@ public class MD5HashChecker {
 
     }
 
-    
-    public boolean checkHashSum(Path pathToFile,FileInfo filename) throws IOException {
+    /**
+     * Проверка соответствия хеш-сумм двух файлов.
+     * @param pathToFile Path соответствующий файлу полученному от сервера
+     * @param file объект FileInfo проверяемого файла, полученный от сервера 
+     * @return true - если хеш сумма верна, false если хешсуммы различаются
+     * @throws IOException
+     */
+    public boolean checkHashSum(Path pathToFile,FileInfo file) throws IOException {
         String hash = computeHash(Paths.get(pathToFile.toString()));
-        return hash.equals(filename.getHash());
+        return hash.equals(file.getHash());
     }
 }

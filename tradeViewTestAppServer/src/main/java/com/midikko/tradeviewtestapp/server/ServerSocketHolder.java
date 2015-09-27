@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Класс-обертка для серверного сокета.
  * @author midikko
  */
 public class ServerSocketHolder extends Thread {
@@ -26,6 +26,10 @@ public class ServerSocketHolder extends Thread {
 
     private ServerSocket socket;
 
+    /**
+     * Конструктор сокета, принимающий на вход номер порта.
+     * @param port
+     */
     public ServerSocketHolder(int port) {
         try {
             initializeFilesSystem();

@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Класс обеспечивающий получение файлов с сервера.
  *
  * @author midikko
  */
@@ -24,10 +25,16 @@ public class FileLoader {
 
     public static final String DEFAULT_FILE_DIRECTORY = "files/";
     private final MD5HashChecker hashChecker;
-    public static final int PARTITION_SIZE = 1024*100;
+    public static final int PARTITION_SIZE = 1024 * 100;
 
-    InputStream stream;
+    private InputStream stream;
 
+    /**
+     * Конструктор, принимающий на вход поток сокета.
+     *
+     * @param stream поток сокета с которого будет производится чтение.
+     * @throws IOException
+     */
     public FileLoader(InputStream stream) throws IOException {
         this.stream = stream;
         initializeFilesSystem();
@@ -43,6 +50,12 @@ public class FileLoader {
         }
     }
 
+    /**
+     * Метод начинающий считывание указанного файла в указанную директорию
+     *
+     * @param path - Path директории в которую будет записан файл
+     * @param file - файл который будет получен с сервера
+     */
     public void readFile(Path path, FileInfo file) {
         int partitionCount = (int) (file.getByteSize() / PARTITION_SIZE + 1);
         Path newFilePath = Paths.get(path.toString(), file.getFilename());

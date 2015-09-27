@@ -18,29 +18,39 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Класс описывающий враппер для сокета клиента.
  * @author midikko
  */
 public class SocketHolder {
-
+    
     private static SocketHolder instanse;
     private Socket socket;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private FileLoader loader;
 
+    /**
+     * Конструктор принимающий на вход хост и порт сервера.
+     * @param host - хост адресс сервера к которому подключаемся
+     * @param port - порт сервера к которому подключаемся
+     */
     public SocketHolder(String host, int port) {
         try {
             this.socket = new Socket(host, port);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
             loader = new FileLoader(socket.getInputStream());
-            SocketHolder.instanse = this;
+            instanse = this;
         } catch (IOException ex) {
             System.out.println("Failed to set client io streams :: \n" + ex);
         }
     }
 
+    /**
+     * Отправка сообщения серверу.
+     * @param message передаваемое сообщение 
+     * @return  true, если сообщение успешно отправлено, false если во время отправки произошла ошибка.
+     */
     public boolean sendMessage(Message message) {
         try {
             outputStream.writeObject(message);
@@ -50,7 +60,11 @@ public class SocketHolder {
         }
         return true;
     }
-
+    
+    /**
+     * Чтение сообщения от сервера.
+     * @return Подкласс Message если успешно считано, null если во время считывания произошла ошибка.
+     */
     public Message readMessage() {
         Message message = null;
         try {
@@ -61,31 +75,28 @@ public class SocketHolder {
         return message;
     }
 
-    public ObjectInputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(ObjectInputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
-    public ObjectOutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    public void setOutputStream(ObjectOutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
-
+    /**
+     * Метод начинающий считывание указанного файла в указанную директорию
+     * @param path - Path директории в которую будет записан файл
+     * @param file - файл который будет получен с сервера
+     */
     public void readFile(Path path,FileInfo file) {
         System.out.println("Begin reading file");
         loader.readFile(path,file);
     }
 
+    /**
+     * Получение инстанса текущего сокета с сервером.
+     * Не потокобезопастно.
+     * @return
+     */
     public static SocketHolder getInstance() {
         return instanse;
     }
 
+    /**
+     * Закрытие сокета
+     */
     public void close() {
         sendMessage(new CloseInteraction());
         try {

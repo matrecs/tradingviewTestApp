@@ -18,7 +18,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
 /**
- *
+ * Класс-врапеер для клиентского сокета.
  * @author midikko
  */
 public class ClientSocketHolder {
@@ -27,6 +27,10 @@ public class ClientSocketHolder {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
 
+    /**
+     * Конструктор, принимает сокет клиента.
+     * @param socket сокет клиента.
+     */
     public ClientSocketHolder(Socket socket) {
         this.socket = socket;
         try {
@@ -37,6 +41,11 @@ public class ClientSocketHolder {
         }
     }
 
+    /**
+     * Отправка сообщения клиенту,
+     * @param message передаваемое сообщение,
+     * @return true, если сообщение успешно отправлено, false если во время отправки произошла ошибка.
+     */
     public boolean sendMessage(Message message) {
         try {
             outputStream.writeObject(message);
@@ -47,6 +56,10 @@ public class ClientSocketHolder {
         return true;
     }
 
+    /**
+     * Чтение сообщения от клиенту.
+     * @return Подкласс Message если успешно считано, null если во время считывания произошла ошибка.
+     */
     public Message readMessage() {
         Message message = null;
         try {
@@ -57,22 +70,10 @@ public class ClientSocketHolder {
         return message;
     }
 
-    public ObjectInputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(ObjectInputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
-    public ObjectOutputStream getOutputStream() {
-        return outputStream;
-    }
-
-    public void setOutputStream(ObjectOutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
-
+    /**
+     * Передает соответствующий файл клиенту.
+     * @param path Path передаваемого файла.
+     */
     public void sendFile(Path path) {
         try {
             byte[] mybytearray;
@@ -95,6 +96,10 @@ public class ClientSocketHolder {
         }
     }
 
+    /**
+     * Проверка не закрыт ли сокет клиента;
+     * @return true если сокет закрыт, false если сокет не закрыт.
+     */
     public boolean isClosed() {
         return socket.isClosed();
     }

@@ -8,7 +8,11 @@ package com.midikko.tradeviewtestapp.client.ui;
 import com.midikko.tradeviewtestapp.client.SocketHolder;
 
 /**
- *
+ * Класс описывающий поток обеспечивающий взаимодействие с пользователем. Меню
+ * при запуске программы. запуск сокета общения с сервером, получение хост
+ * адреса и порта
+ * Переход в 
+ * @see MainMenu
  * @author midikko
  */
 public class ConnectMenu extends Thread {

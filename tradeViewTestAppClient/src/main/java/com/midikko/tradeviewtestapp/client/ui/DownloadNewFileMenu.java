@@ -20,7 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Класс описывающий поток обеспечивающий взаимодействие с пользователем. Меню
+ * загрузки файла и получения сопуствтующей информации Переход в
  *
+ * @see MainMenu
  * @author midikko
  */
 public class DownloadNewFileMenu extends Thread {
@@ -79,10 +82,10 @@ public class DownloadNewFileMenu extends Thread {
         if (getFileResponse.getStatus() == 1) {
             socketHolder.readFile(directory, fileToDownload);
             System.out.println("Download finished.");
-        }else{
+        } else {
             System.out.println("Selected file is not availiable now.");
         }
-        
+
         System.out.println("1. Download another file.");
         System.out.println("2 . Return to mine menu.");
         int selected = Integer.parseInt(System.console().readLine());

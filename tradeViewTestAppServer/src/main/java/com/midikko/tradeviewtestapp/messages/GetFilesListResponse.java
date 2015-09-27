@@ -8,7 +8,8 @@ package com.midikko.tradeviewtestapp.messages;
 import com.midikko.tradeviewtestapp.domain.FileInfo;
 
 /**
- *
+ * Класс, описывающий ответ на запрос о получении списка файлов.
+ * @see GetFilesListRequest
  * @author midikko
  */
 public class GetFilesListResponse extends Message {
@@ -16,10 +17,18 @@ public class GetFilesListResponse extends Message {
     private static final long serialVersionUID = 6683479949287415979L;
     private FileInfo[] files;
 
+    /**
+     * Метод на получение текущего списка файлов доступных для передачи.
+     * @return массив объектов типа FileInfo.
+     */
     public FileInfo[] getFiles() {
         return files;
     }
 
+    /**
+     * Метод на установку списка файлов. 
+     * @param files Массив объектов типа FileInfo
+     */
     public void setFiles(FileInfo[] files) {
         this.files = files;
     }

@@ -13,13 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Класс обеспечивающий общение между клиентом и сервером.
  * @author midikko
  */
 public class ClientGreeter extends Thread {
 
     ClientSocketHolder client;
 
+    /**
+     * Принимает в себя холдер сокета клиента.
+     * @param client
+     */
     public ClientGreeter(ClientSocketHolder client) {
         this.client = client;
     }

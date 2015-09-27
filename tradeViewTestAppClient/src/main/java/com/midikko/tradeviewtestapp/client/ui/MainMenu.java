@@ -8,7 +8,10 @@ package com.midikko.tradeviewtestapp.client.ui;
 import com.midikko.tradeviewtestapp.client.SocketHolder;
 
 /**
- *
+ * Класс описывающий поток обеспечивающий взаимодействие с пользователем.
+ * Основное меню обеспечивающее переход в 
+ * @see DownloadNewFileMenu
+ * и закрытие клиента.
  * @author midikko
  */
 public class MainMenu extends Thread {

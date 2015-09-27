@@ -6,10 +6,12 @@
 package com.midikko.tradeviewtestapp.messages;
 
 /**
+ * Класс, описывающий сообщение-запрос на получение списка файлов
  *
  * @author midikko
  */
-public class GetFilesListRequest extends Message{
+public class GetFilesListRequest extends Message {
+
     private static final long serialVersionUID = -8521342080818246488L;
-    
+
 }

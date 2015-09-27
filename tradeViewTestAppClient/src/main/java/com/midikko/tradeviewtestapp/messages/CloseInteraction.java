@@ -6,7 +6,7 @@
 package com.midikko.tradeviewtestapp.messages;
 
 /**
- *
+ * Сообщение о закрытии соединения.
  * @author midikko
  */
 public class CloseInteraction extends Message{

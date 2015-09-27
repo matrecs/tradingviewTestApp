@@ -8,7 +8,7 @@ package com.midikko.tradeviewtestapp.messages;
 import java.io.Serializable;
 
 /**
- *
+ * Абстрактный класс-родитель для иерархии сообщенй.
  * @author midikko
  */
 public abstract class Message implements Serializable {

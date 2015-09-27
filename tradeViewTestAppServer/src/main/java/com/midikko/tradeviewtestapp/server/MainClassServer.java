@@ -13,7 +13,14 @@ import static com.midikko.tradeviewtestapp.server.MainClassServer.SERVER_PORT;
  */
 public class MainClassServer {
 
+    /**
+     * Порт сервера.
+     */
     public static final int SERVER_PORT = 25569;
+    
+    /**
+     * Размер минимального передаваемого пакета.
+     */
     public static final int PARTITION_SIZE = 1024*100;
 
     public static void main(String[] args) {

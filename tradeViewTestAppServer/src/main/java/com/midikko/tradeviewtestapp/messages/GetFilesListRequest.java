@@ -6,7 +6,7 @@
 package com.midikko.tradeviewtestapp.messages;
 
 /**
- *
+ * Класс, описывающий сообщение-запрос на получение списка файлов
  * @author midikko
  */
 public class GetFilesListRequest extends Message{
