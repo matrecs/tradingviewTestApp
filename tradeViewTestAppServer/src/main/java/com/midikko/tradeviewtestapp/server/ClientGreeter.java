@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Класс обеспечивающий общение между клиентом и сервером.
+ *
  * @author midikko
  */
 public class ClientGreeter extends Thread {
@@ -22,6 +23,7 @@ public class ClientGreeter extends Thread {
 
     /**
      * Принимает в себя холдер сокета клиента.
+     *
      * @param client
      */
     public ClientGreeter(ClientSocketHolder client) {
@@ -41,20 +43,21 @@ public class ClientGreeter extends Thread {
                     System.out.println("Send getFiles answer");
                     GetFilesListResponse response = new GetFilesListResponse();
 
-                    List <FileInfo> filesList = new ArrayList<>();
+                    List<FileInfo> filesList = new ArrayList<>();
                     ServerSocketHolder.files.entrySet().forEach((entry) -> {
                         filesList.add(entry.getValue());
                     });
                     response.setFiles(filesList.toArray(new FileInfo[0]));
+                    System.out.println(response);
                     client.sendMessage(response);
                     break;
                 }
                 case "GetFileRequest": {
                     GetFileRequest request = (GetFileRequest) message;
                     FileInfo file = ServerSocketHolder.files.get(request.getName());
-                    if(file==null){
+                    if (file == null) {
                         client.sendMessage(new GetFileResponse(0));
-                    }else{
+                    } else {
                         client.sendMessage(new GetFileResponse(1));
                     }
                     client.sendFile(file.getPath());

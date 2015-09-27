@@ -6,6 +6,7 @@
 package com.midikko.tradeviewtestapp.messages;
 
 import com.midikko.tradeviewtestapp.domain.FileInfo;
+import java.util.Arrays;
 
 /**
  * Класс, описывающий ответ на запрос о получении списка файлов.
@@ -31,6 +32,11 @@ public class GetFilesListResponse extends Message {
      */
     public void setFiles(FileInfo[] files) {
         this.files = files;
+    }
+
+    @Override
+    public String toString() {
+        return "GetFilesListResponse{" + "files=" + Arrays.toString(files) + '}';
     }
 
 }

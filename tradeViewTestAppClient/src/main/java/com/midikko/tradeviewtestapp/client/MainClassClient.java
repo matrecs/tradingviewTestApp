@@ -5,7 +5,7 @@
  */
 package com.midikko.tradeviewtestapp.client;
 
-import com.midikko.tradeviewtestapp.client.ui.ConnectMenu;
+import com.midikko.tradeviewtestapp.client.ui.MainMenu;
 
 
 /**
@@ -17,7 +17,7 @@ public class MainClassClient {
     public static final int SERVER_PORT = 25569;
 
     public static void main(String[] args) {
-        ConnectMenu menu = new ConnectMenu();
+        MainMenu menu = new MainMenu();
         menu.start();
     }
 }

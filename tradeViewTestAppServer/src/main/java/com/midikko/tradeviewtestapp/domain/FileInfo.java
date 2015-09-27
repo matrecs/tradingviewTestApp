@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Класс описываюший DTO для передачи информации о списке файлов клиенту.
@@ -45,6 +47,7 @@ public class FileInfo implements Serializable {
 
     /**
      * Метод на получение имени файла.
+     *
      * @return
      */
     public String getFilename() {
@@ -53,6 +56,7 @@ public class FileInfo implements Serializable {
 
     /**
      * Метод на получение длины файла в байтах
+     *
      * @return длины файла в байтах
      * @throws IOException
      */
@@ -62,6 +66,7 @@ public class FileInfo implements Serializable {
 
     /**
      * Метод на получение hash-суммы файла
+     *
      * @return хеш!сумма MD5
      */
     public String getHash() {
@@ -70,6 +75,7 @@ public class FileInfo implements Serializable {
 
     /**
      * Метод на получение Path
+     *
      * @return
      */
     public Path getPath() {
@@ -81,19 +87,25 @@ public class FileInfo implements Serializable {
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException ex) {
-            System.out.println("CANNOT COMPUTE HASH - SOMETHING WENTS WRONG");
+            System.out.println("Error while try to get hash");
         }
-        try (InputStream is = Files.newInputStream(this.path)) {
-            DigestInputStream dis = new DigestInputStream(is, md);
-            /* Read stream to EOF as normal... */
-        }
-        byte[] digest = md.digest();
-        String result = "";
+        InputStream is = Files.newInputStream(path);
+        byte[] dataBytes = new byte[1024];
 
-        for (int i = 0; i < digest.length; i++) {
-            result += Integer.toString((digest[i] & 0xff) + 0x100, 16).substring(1);
+        int nread;
+
+        while ((nread = is.read(dataBytes)) != -1) {
+            md.update(dataBytes, 0, nread);
+        };
+
+        byte[] mdbytes = md.digest();
+
+        //convert the byte to hex format
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
         }
-        return result;
+        return sb.toString();
 
     }
 

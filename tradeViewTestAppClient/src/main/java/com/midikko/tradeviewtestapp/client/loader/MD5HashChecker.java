@@ -11,16 +11,16 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
  * Вспомогательный класс обеспечивающий получение и сверку хеш-сумм файлов
+ *
  * @author midikko
  */
 public class MD5HashChecker {
-    
+
     private MessageDigest md;
 
     public MD5HashChecker() {
@@ -32,29 +32,39 @@ public class MD5HashChecker {
     }
 
     private String computeHash(Path path) throws IOException {
-        try (InputStream is = Files.newInputStream(path)) {
-            new DigestInputStream(is, md);
-            /* Read stream to EOF as normal... */
-        }
-        byte[] digest = md.digest();
-        String result = "";
+        InputStream is = Files.newInputStream(path);
+        byte[] dataBytes = new byte[1024];
 
-        for (int i = 0; i < digest.length; i++) {
-            result += Integer.toString((digest[i] & 0xff) + 0x100, 16).substring(1);
+        int nread;
+
+        while ((nread = is.read(dataBytes)) != -1) {
+            md.update(dataBytes, 0, nread);
+        };
+
+        byte[] mdbytes = md.digest();
+
+        //convert the byte to hex format
+        StringBuilder sb = new StringBuilder("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
         }
-        return result;
+
+        return sb.toString();
 
     }
 
     /**
      * Проверка соответствия хеш-сумм двух файлов.
+     *
      * @param pathToFile Path соответствующий файлу полученному от сервера
-     * @param file объект FileInfo проверяемого файла, полученный от сервера 
+     * @param file объект FileInfo проверяемого файла, полученный от сервера
      * @return true - если хеш сумма верна, false если хешсуммы различаются
      * @throws IOException
      */
-    public boolean checkHashSum(Path pathToFile,FileInfo file) throws IOException {
+    public boolean checkHashSum(Path pathToFile, FileInfo file) throws IOException {
         String hash = computeHash(Paths.get(pathToFile.toString()));
+        System.out.println("File hashsum      :: " + hash);
+        System.out.println("Expected hashsum  :: " + file.getHash());
         return hash.equals(file.getHash());
     }
 }

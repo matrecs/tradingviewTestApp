@@ -57,20 +57,29 @@ public class FileLoader {
      * @param file - файл который будет получен с сервера
      */
     public void readFile(Path path, FileInfo file) {
-        int partitionCount = (int) (file.getByteSize() / PARTITION_SIZE + 1);
         Path newFilePath = Paths.get(path.toString(), file.getFilename());
+        
+        while (Files.exists(newFilePath)) {
+            System.out.println("file exist");
+            newFilePath = Paths.get(newFilePath.toString() + "(copy)");
+        }
+
         try (RandomAccessFile raf = new RandomAccessFile(newFilePath.toString(), "rw")) {
-            for (int i = 1; i <= partitionCount; i++) {
-                byte[] mybytearray = new byte[PARTITION_SIZE];
+            for (int i = 0; i < file.getByteSize(); i += PARTITION_SIZE) {
+                int bytesToRead = PARTITION_SIZE;
+                if (file.getByteSize() - i < PARTITION_SIZE) {
+                    bytesToRead = (int) file.getByteSize() - i;
+                }
+                byte[] mybytearray = new byte[bytesToRead];
                 stream.read(mybytearray, 0, mybytearray.length);
                 raf.seek(raf.length());
                 raf.write(mybytearray);
             }
-            System.out.println("HashSum status ::" + hashChecker.checkHashSum(path, file));
+            System.out.println("HashSum status ::" + hashChecker.checkHashSum(newFilePath, file));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("something went's wrong while try to read file :: " + ex);
         } catch (IOException ex) {
-            Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("something went's wrong while try to read file :: " + ex);
         }
     }
 
