@@ -38,7 +38,6 @@ public class MainMenu extends Thread {
         SocketHolder socketHolder = new SocketHolder(inputs[0], Integer.parseInt(inputs[1]));
         System.out.println("Successfully connected to " + hostPort);
         GetFilesListRequest message = new GetFilesListRequest();
-        System.out.println("Object to be written = " + message);
         socketHolder.sendMessage(message);
         GetFilesListResponse fileListResponse = (GetFilesListResponse) socketHolder.readMessage();
         System.out.println("server at this time contains the following files:");

@@ -57,7 +57,6 @@ public class ServerSocketHolder extends Thread {
     private void initializeFilesSystem() throws IOException {
 
         Path path = Paths.get("files"); // it's only an object
-        System.out.println("path :: " + path);
         if (!Files.exists(path)) {
             System.out.println("Filefolder not exist! create one.");
             Files.createDirectory(path);
