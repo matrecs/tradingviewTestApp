@@ -1,4 +1,4 @@
-#!/bin/bash          
+@echo off    
 md build
 echo "1. build directory created"
 javac -d ./build -sourcepath src/main/java/ src/main/java/com/midikko/tradeviewtestapp/server/MainClassServer.java
@@ -12,4 +12,4 @@ rmdir build /s /q
 echo "================="
 java -jar server.jar
 
-$SHELL
+pause
