@@ -94,15 +94,15 @@ public class SocketHolder {
         return instanse;
     }
 
-    /**
-     * Закрытие сокета
-     */
-    public void close() {
-        sendMessage(new CloseInteraction());
-        try {
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(SocketHolder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    /**
+//     * Закрытие сокета
+//     */
+//    public void close() {
+//        sendMessage(new CloseInteraction());
+//        try {
+//            socket.close();
+//        } catch (IOException ex) {
+//            Logger.getLogger(SocketHolder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

@@ -9,6 +9,7 @@ import com.midikko.tradeviewtestapp.domain.FileInfo;
 import com.midikko.tradeviewtestapp.messages.GetFileRequest;
 import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListResponse;
+import com.midikko.tradeviewtestapp.messages.GetFilesListRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class ClientGreeter extends Thread {
                 }
                 case "CloseInteraction": {
                     System.out.println("Close connection");
+                    client.close();
                     return;
                 }
                 default:

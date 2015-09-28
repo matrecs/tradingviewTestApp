@@ -8,6 +8,7 @@ package com.midikko.tradeviewtestapp.client.ui;
 import com.midikko.tradeviewtestapp.client.SocketHolder;
 import com.midikko.tradeviewtestapp.client.loader.FileLoader;
 import com.midikko.tradeviewtestapp.domain.FileInfo;
+import com.midikko.tradeviewtestapp.messages.CloseInteraction;
 import com.midikko.tradeviewtestapp.messages.GetFileRequest;
 import com.midikko.tradeviewtestapp.messages.GetFileResponse;
 import com.midikko.tradeviewtestapp.messages.GetFilesListRequest;
@@ -100,6 +101,6 @@ public class MainMenu extends Thread {
         } else {
             System.out.println("Selected file is not availiable now.");
         }
-
+        socketHolder.sendMessage(new CloseInteraction());
     }
 }

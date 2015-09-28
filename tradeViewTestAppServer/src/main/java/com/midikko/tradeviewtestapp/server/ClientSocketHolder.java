@@ -16,6 +16,8 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Класс-врапеер для клиентского сокета.
@@ -102,5 +104,15 @@ public class ClientSocketHolder {
      */
     public boolean isClosed() {
         return socket.isClosed();
+    }
+    
+    public void close(){
+        if(!socket.isClosed()){
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientSocketHolder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

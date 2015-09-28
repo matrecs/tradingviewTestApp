@@ -6,6 +6,8 @@
 package com.midikko.tradeviewtestapp.server;
 
 import static com.midikko.tradeviewtestapp.server.MainClassServer.SERVER_PORT;
+import com.midikko.tradeviewtestapp.messages.CloseInteraction;
+
 
 /**
  *
@@ -24,10 +26,10 @@ public class MainClassServer {
     public static final int PARTITION_SIZE = 1024 * 100;
 
     public static void main(String[] args) {
+        int port;
         while (true) {
         System.out.println("Please enter server port or press enter to use default(25569):");
         String input = System.console().readLine();
-        int port;
         if(input.isEmpty()){
             port= SERVER_PORT;
             break;
@@ -42,7 +44,7 @@ public class MainClassServer {
             
         }
         
-        ServerSocketHolder socket = new ServerSocketHolder(SERVER_PORT);
+        ServerSocketHolder socket = new ServerSocketHolder(port);
         socket.start();
 
     }
